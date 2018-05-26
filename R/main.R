@@ -27,7 +27,7 @@
 ## =============================================================================
 source('./R/core-R/load-libraries.R')
 source('./R/get-clean-data/get-online-data.R')
-source('./data/source/noise-records-uri.R')
+source('./conf/noise-records-uri.R')
 
 
 ## =============================================================================
@@ -37,9 +37,10 @@ source('./data/source/noise-records-uri.R')
 ## ------------------------
 ##	get noise data
 ## ------------------------
+## Download if file do not exists
 setwd('./data/source/')
 mapply(getOnlineData,uriNoiseSensor$url, uriNoiseSensor$destination.file)
 setwd('../../')
-
+## Load
 myData <- lapply(uriNoiseSensor$file.path, fread)
 names(myData) <- uriNoiseSensor$dataset
