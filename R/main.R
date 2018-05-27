@@ -15,7 +15,7 @@
 ##	-------
 ##	0. Configuration, libraries & source functions
 ##	1. Get data
-##
+##	2. Clean data
 ##
 ## =============================================================================
 
@@ -44,3 +44,17 @@ setwd('../../')
 ## Load
 myData <- lapply(uriNoiseSensor$file.path, fread)
 names(myData) <- uriNoiseSensor$dataset
+
+
+## ------------------------
+##	clean noise data
+## ------------------------
+myData$noise.average[ , Timestamp := strptime(x = Timestamp, format = "%Y-%m-%dT%H:%M:%S+00:00")]
+myData$noise.average[ , ':=' (
+	year = year(Timestamp),
+	month = month(Timestamp),
+	day = lubridate::day(Timestamp),
+	week.day = weekdays(Timestamp),
+	date = lubridate::date(Timestamp),
+	time = format(Timestamp, format = '%T')
+)]
